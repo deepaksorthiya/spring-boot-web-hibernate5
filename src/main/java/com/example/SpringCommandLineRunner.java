@@ -14,6 +14,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping;
 
+import com.example.permission.model.Permission;
 import com.example.roles.model.Role;
 import com.example.users.model.User;
 import com.example.users.repo.UserRepository;
@@ -41,19 +42,21 @@ public class SpringCommandLineRunner implements CommandLineRunner {
 					.println(key.getPatternsCondition().getPatterns() + " : " + key.getMethodsCondition().getMethods());
 		});
 
-		User user = new User(0, "a3@gmail.com", "a3", "a3", null);
-
 		Set<User> users = new HashSet<>();
+		Set<Role> roles = new HashSet<>();
+		Set<Permission> permissions = new HashSet<>();
+
+		User user = new User(0, "a3@gmail.com", "a3", "a3", null);
 		users.add(user);
 
-		Role userRole = new Role(0, "ROLE_USER", "USER ROLE", users);
-		Role adminrRole = new Role(0, "ROLE_ADMIN", "ADMIN ROLE", users);
-
-		Set<Role> roles = new HashSet<>();
-		roles.add(userRole);
+		Role adminrRole = new Role(0, "ROLE_ADMIN", "ADMIN ROLE", users, permissions);
 		roles.add(adminrRole);
 
+		Permission permission = new Permission(0, "WRITE_USERS", "WRITE USERS IN DB", roles);
+		permissions.add(permission);
+
 		user.setRoles(roles);
+		permission.setRoles(roles);
 
 		userRepository.save(user);
 	}

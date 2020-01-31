@@ -3,12 +3,15 @@ package com.example.roles.model;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.example.permission.model.Permission;
 import com.example.users.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -31,15 +34,20 @@ public class Role implements Serializable {
 	@JsonIgnore
 	private Set<User> users;
 
+	@ManyToMany(cascade = CascadeType.ALL, targetEntity = Permission.class)
+	@JoinTable(name = "ROLE_PERMISSION_MAPPING")
+	private Set<Permission> permissions;
+
 	public Role() {
 		// JPA
 	}
 
-	public Role(long roleId, String roleName, String roleDesc, Set<User> users) {
+	public Role(long roleId, String roleName, String roleDesc, Set<User> users, Set<Permission> permissions) {
 		this.roleId = roleId;
 		this.roleName = roleName;
 		this.roleDesc = roleDesc;
 		this.users = users;
+		this.permissions = permissions;
 	}
 
 	public long getRoleId() {
@@ -74,10 +82,18 @@ public class Role implements Serializable {
 		this.users = users;
 	}
 
+	public Set<Permission> getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(Set<Permission> permissions) {
+		this.permissions = permissions;
+	}
+
 	@Override
 	public String toString() {
 		return "Role [roleId=" + roleId + ", roleName=" + roleName + ", roleDesc=" + roleDesc + ", users=" + users
-				+ "]";
+				+ ", permissions=" + permissions + "]";
 	}
 
 	@Override
