@@ -1,13 +1,13 @@
 package com.example.roles.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 
 import com.example.users.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -27,20 +27,19 @@ public class Role implements Serializable {
 
 	private String roleDesc;
 
-	@ManyToOne
-	@JoinColumn(name = "userId")
+	@ManyToMany(mappedBy = "roles", targetEntity = User.class)
 	@JsonIgnore
-	private User user;
+	private Set<User> users;
 
 	public Role() {
 		// JPA
 	}
 
-	public Role(long roleId, String roleName, String roleDesc, User user) {
+	public Role(long roleId, String roleName, String roleDesc, Set<User> users) {
 		this.roleId = roleId;
 		this.roleName = roleName;
 		this.roleDesc = roleDesc;
-		this.user = user;
+		this.users = users;
 	}
 
 	public long getRoleId() {
@@ -67,17 +66,18 @@ public class Role implements Serializable {
 		this.roleDesc = roleDesc;
 	}
 
-	public User getUser() {
-		return user;
+	public Set<User> getUsers() {
+		return users;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUsers(Set<User> users) {
+		this.users = users;
 	}
 
 	@Override
 	public String toString() {
-		return "Role [roleId=" + roleId + ", roleName=" + roleName + ", roleDesc=" + roleDesc + ", user=" + user + "]";
+		return "Role [roleId=" + roleId + ", roleName=" + roleName + ", roleDesc=" + roleDesc + ", users=" + users
+				+ "]";
 	}
 
 	@Override

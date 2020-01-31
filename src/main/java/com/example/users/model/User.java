@@ -7,7 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -30,7 +31,8 @@ public class User {
 	@NotBlank(message = "Last name should not be blank")
 	private String lastName;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", targetEntity = Role.class)
+	@ManyToMany(cascade = CascadeType.ALL, targetEntity = Role.class)
+	@JoinTable(name = "USER_ROLE_MAPPING")
 	private Set<Role> roles;
 
 	public User() {

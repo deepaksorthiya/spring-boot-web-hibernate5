@@ -43,8 +43,11 @@ public class SpringCommandLineRunner implements CommandLineRunner {
 
 		User user = new User(0, "a3@gmail.com", "a3", "a3", null);
 
-		Role userRole = new Role(0, "ROLE_USER", "USER ROLE", user);
-		Role adminrRole = new Role(0, "ROLE_ADMIN", "ADMIN ROLE", user);
+		Set<User> users = new HashSet<>();
+		users.add(user);
+
+		Role userRole = new Role(0, "ROLE_USER", "USER ROLE", users);
+		Role adminrRole = new Role(0, "ROLE_ADMIN", "ADMIN ROLE", users);
 
 		Set<Role> roles = new HashSet<>();
 		roles.add(userRole);
