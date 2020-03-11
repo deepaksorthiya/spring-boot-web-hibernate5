@@ -26,6 +26,10 @@ public class Permission {
 	@JsonIgnore
 	private Set<Role> roles;
 
+	public Permission() {
+		// JPA
+	}
+
 	public Permission(long permissionId, String permissionName, String permissionDesc, Set<Role> roles) {
 		super();
 		this.permissionId = permissionId;

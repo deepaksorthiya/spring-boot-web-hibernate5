@@ -1,5 +1,9 @@
 package com.example.users.rest;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.users.model.User;
+import com.example.users.repo.UserRepository;
 import com.example.users.service.UserService;
 
 @RestController
@@ -27,6 +32,12 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private UserRepository userRepository;
+
+	@Autowired
+	private EntityManager entityManager;
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> save(@RequestBody @Valid User user, @RequestHeader HttpHeaders httpHeaders) {
@@ -41,6 +52,14 @@ public class UserController {
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Page<User>> findAll(@NotNull final Pageable pageable,
 			@RequestHeader HttpHeaders httpHeaders) {
+		System.out.println(entityManager);
+		Map<String, Object> properties = entityManager.getProperties();
+		System.out.println(properties);
 		return new ResponseEntity<Page<User>>(userService.findAll(pageable), HttpStatus.OK);
+	}
+
+	@GetMapping(value = "new", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<User>> findAllWithRoles() {
+		return new ResponseEntity<List<User>>(userRepository.FindAllFetchRolesEagerlyXX(), HttpStatus.OK);
 	}
 }
