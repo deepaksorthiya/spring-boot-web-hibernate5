@@ -30,36 +30,40 @@ import com.example.users.service.UserService;
 @RequestMapping("/users")
 public class UserController {
 
-	@Autowired
-	private UserService userService;
+    private final UserService userService;
 
-	@Autowired
-	private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-	@Autowired
-	private EntityManager entityManager;
+    private final EntityManager entityManager;
 
-	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> save(@RequestBody @Valid User user, @RequestHeader HttpHeaders httpHeaders) {
-		return new ResponseEntity<User>(userService.save(user), HttpStatus.CREATED);
-	}
+    public UserController(UserService userService, UserRepository userRepository, EntityManager entityManager) {
+        this.userService = userService;
+        this.userRepository = userRepository;
+        this.entityManager = entityManager;
+    }
 
-	@GetMapping(value = "{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> getUser(@PathVariable long userId, @RequestHeader HttpHeaders httpHeaders) {
-		return new ResponseEntity<User>(userService.findById(userId).get(), HttpStatus.OK);
-	}
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> save(@RequestBody @Valid User user, @RequestHeader HttpHeaders httpHeaders) {
+        return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
+    }
 
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Page<User>> findAll(@NotNull final Pageable pageable,
-			@RequestHeader HttpHeaders httpHeaders) {
-		System.out.println(entityManager);
-		Map<String, Object> properties = entityManager.getProperties();
-		System.out.println(properties);
-		return new ResponseEntity<Page<User>>(userService.findAll(pageable), HttpStatus.OK);
-	}
+    @GetMapping(value = "{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> getUser(@PathVariable long userId, @RequestHeader HttpHeaders httpHeaders) {
+        return new ResponseEntity<>(userService.findById(userId).get(), HttpStatus.OK);
+    }
 
-	@GetMapping(value = "new", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<User>> findAllWithRoles() {
-		return new ResponseEntity<List<User>>(userRepository.FindAllFetchRolesEagerlyXX(), HttpStatus.OK);
-	}
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<User>> findAll(@NotNull final Pageable pageable,
+                                              @RequestHeader HttpHeaders httpHeaders) {
+        System.out.println(entityManager);
+        Map<String, Object> properties = entityManager.getProperties();
+        System.out.println(properties);
+        return new ResponseEntity<>(userRepository.findAll(pageable), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "new", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<User>> findAllWithRoles(@NotNull final Pageable pageable,
+                                                       @RequestHeader HttpHeaders httpHeaders) {
+        return new ResponseEntity<>(userRepository.findAllFetchRolesEagerlyXX(pageable), HttpStatus.OK);
+    }
 }

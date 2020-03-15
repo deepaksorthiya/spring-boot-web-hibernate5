@@ -1,64 +1,73 @@
 package com.example;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.permission.model.Permission;
+import com.example.permission.repo.PermissionRepository;
+import com.example.roles.model.Role;
+import com.example.roles.repo.RoleRepository;
+import com.example.users.model.User;
+import com.example.users.repo.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping;
 
-import com.example.permission.model.Permission;
-import com.example.roles.model.Role;
-import com.example.users.model.User;
-import com.example.users.repo.UserRepository;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.*;
 
 @Component
 public class SpringCommandLineRunner implements CommandLineRunner {
 
-	@Autowired
-	private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-	@Autowired
-	private RequestMappingInfoHandlerMapping qequestMappingInfoHandlerMapping;
+    private final RoleRepository roleRepository;
 
-	@PersistenceContext
-	private EntityManager entityManager;
+    private final PermissionRepository permissionRepository;
 
-	@Override
-	public void run(String... args) throws Exception {
+    private final RequestMappingInfoHandlerMapping qequestMappingInfoHandlerMapping;
 
-		System.out.println(entityManager);
-		Map<RequestMappingInfo, HandlerMethod> handlersMethod = qequestMappingInfoHandlerMapping.getHandlerMethods();
+    @PersistenceContext
+    private EntityManager entityManager;
 
-		handlersMethod.forEach((key, value) -> {
-			System.out
-					.println(key.getPatternsCondition().getPatterns() + " : " + key.getMethodsCondition().getMethods());
-		});
+    public SpringCommandLineRunner(UserRepository userRepository, RoleRepository roleRepository, PermissionRepository permissionRepository, RequestMappingInfoHandlerMapping qequestMappingInfoHandlerMapping) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.permissionRepository = permissionRepository;
+        this.qequestMappingInfoHandlerMapping = qequestMappingInfoHandlerMapping;
+    }
 
-		Set<User> users = new HashSet<>();
-		Set<Role> roles = new HashSet<>();
-		Set<Permission> permissions = new HashSet<>();
+    @Override
+    public void run(String... args) throws Exception {
 
-		User user = new User(0, "a3@gmail.com", "a3", "a3", null);
-		users.add(user);
+        System.out.println(entityManager);
+        Map<RequestMappingInfo, HandlerMethod> handlersMethod = qequestMappingInfoHandlerMapping.getHandlerMethods();
 
-		Role adminrRole = new Role(0, "ROLE_ADMIN", "ADMIN ROLE", users, permissions);
-		roles.add(adminrRole);
+        handlersMethod.forEach((key, value) -> System.out
+                .println(key.getPatternsCondition().getPatterns() + " : " + key.getMethodsCondition().getMethods()));
 
-		Permission permission = new Permission(0, "WRITE_USERS", "WRITE USERS IN DB", roles);
-		permissions.add(permission);
+        Permission permission = new Permission(1, "permission", "permission desc", null);
+        Set<Permission> permissions = new HashSet<>();
+        permissions.add(permission);
+        Role role = new Role(1, "role", "role desc", null, permissions);
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        permission.setRoles(roles);
 
-		user.setRoles(roles);
-		permission.setRoles(roles);
+        Role saveRole = roleRepository.save(role);
 
-		userRepository.save(user);
-	}
+        List<User> userList = new ArrayList<>();
+
+        for (int i = 0; i < 26; i++) {
+            char c = (char) (i + 97);
+            User user = new User(0, c + "@gmail.com", c + "", c + "", null);
+            userList.add(user);
+        }
+        List<User> saveUserList = userRepository.saveAll(userList);
+        for (User u : saveUserList) {
+            u.setRoles(roles);
+            userRepository.save(u);
+        }
+    }
 
 }
