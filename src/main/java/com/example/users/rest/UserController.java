@@ -1,30 +1,20 @@
 package com.example.users.rest;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.persistence.EntityManager;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.users.model.User;
+import com.example.users.repo.UserRepository;
+import com.example.users.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.example.users.model.User;
-import com.example.users.repo.UserRepository;
-import com.example.users.service.UserService;
+import javax.persistence.EntityManager;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -62,8 +52,10 @@ public class UserController {
     }
 
     @GetMapping(value = "new", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<User>> findAllWithRoles(@NotNull final Pageable pageable,
-                                                       @RequestHeader HttpHeaders httpHeaders) {
-        return new ResponseEntity<>(userRepository.findAllFetchRolesEagerlyXX(pageable), HttpStatus.OK);
+    public ResponseEntity<Page<User>> getAllUserWithRolesAndPermissions(@NotNull final Pageable pageable,
+                                                                        @RequestHeader HttpHeaders httpHeaders) {
+        long count = userRepository.getAllCountUserWithRolesAndPermissions();
+        System.out.println(count);
+        return new ResponseEntity<>(userRepository.getAllUserWithRolesAndPermissions(pageable), HttpStatus.OK);
     }
 }
