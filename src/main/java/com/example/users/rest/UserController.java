@@ -56,6 +56,6 @@ public class UserController {
                                                                         @RequestHeader HttpHeaders httpHeaders) {
         long count = userRepository.getAllCountUserWithRolesAndPermissions();
         System.out.println(count);
-        return new ResponseEntity<>(userRepository.getAllUserWithRolesAndPermissions(pageable), HttpStatus.OK);
+        return new ResponseEntity<>(userRepository.findAll(pageable), HttpStatus.OK);
     }
 }
