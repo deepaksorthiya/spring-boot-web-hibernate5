@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.error.ErrorAttributeOptions;
+import org.springframework.boot.web.error.ErrorAttributeOptions.Include;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,7 +67,10 @@ public class UserControllerAdviceHandler {
 	@ExceptionHandler({ ResourceNotFoundException.class })
 	public ResponseEntity<ErrorDto> handleResourceNotFoundException(ResourceNotFoundException resourceNotFoundException,
 			WebRequest webRequest) {
-		Map<String, Object> attr = errorAttributes.getErrorAttributes(webRequest, false);
+		// Map<String, Object> attr = errorAttributes.getErrorAttributes(webRequest,
+		// false);
+		Map<String, Object> attr = errorAttributes.getErrorAttributes(webRequest, ErrorAttributeOptions
+				.of(Include.EXCEPTION, Include.BINDING_ERRORS, Include.MESSAGE, Include.STACK_TRACE));
 		System.out.println(attr);
 		ErrorDto errorDto = new ErrorDto(resourceNotFoundException.getMessage(), LocalDateTime.now(),
 				HttpStatus.NOT_FOUND.value(), null);
