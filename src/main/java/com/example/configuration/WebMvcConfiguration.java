@@ -33,7 +33,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 		converters.add(mappingJackson2HttpMessageConverter());
-		WebMvcConfigurer.super.configureMessageConverters(converters);
 	}
 
 }

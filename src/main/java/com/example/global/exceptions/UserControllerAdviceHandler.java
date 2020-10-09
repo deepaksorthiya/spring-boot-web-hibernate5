@@ -2,6 +2,7 @@ package com.example.global.exceptions;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,8 +73,10 @@ public class UserControllerAdviceHandler {
 		Map<String, Object> attr = errorAttributes.getErrorAttributes(webRequest, ErrorAttributeOptions
 				.of(Include.EXCEPTION, Include.BINDING_ERRORS, Include.MESSAGE, Include.STACK_TRACE));
 		System.out.println(attr);
+		String description = webRequest.getDescription(false);
+		System.out.println(description);
 		ErrorDto errorDto = new ErrorDto(resourceNotFoundException.getMessage(), LocalDateTime.now(),
-				HttpStatus.NOT_FOUND.value(), null);
+				HttpStatus.NOT_FOUND.value(), Collections.emptyMap());
 		return new ResponseEntity<ErrorDto>(errorDto, HttpStatus.NOT_FOUND);
 	}
 
