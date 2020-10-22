@@ -12,9 +12,5 @@ public class SpringBootWebHibernateApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootWebHibernateApplication.class, args);
-		System.out.println("hellop");
 	}
-
 }
-
-// i am commit from new branch02
