@@ -31,18 +31,18 @@ public class SpringCommandLineRunner implements CommandLineRunner {
 
 	private final PermissionRepository permissionRepository;
 
-	private final RequestMappingInfoHandlerMapping qequestMappingInfoHandlerMapping;
+	private final RequestMappingInfoHandlerMapping requestMappingInfoHandlerMapping;
 
 	@PersistenceContext
 	private EntityManager entityManager;
 
 	public SpringCommandLineRunner(UserRepository userRepository, RoleRepository roleRepository,
 			PermissionRepository permissionRepository,
-			RequestMappingInfoHandlerMapping qequestMappingInfoHandlerMapping) {
+			RequestMappingInfoHandlerMapping requestMappingInfoHandlerMapping) {
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
 		this.permissionRepository = permissionRepository;
-		this.qequestMappingInfoHandlerMapping = qequestMappingInfoHandlerMapping;
+		this.requestMappingInfoHandlerMapping = requestMappingInfoHandlerMapping;
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class SpringCommandLineRunner implements CommandLineRunner {
 		System.out.println(entityManager);
 		System.out.println(permissionRepository);
 		System.out.println(roleRepository);
-		Map<RequestMappingInfo, HandlerMethod> handlersMethod = qequestMappingInfoHandlerMapping.getHandlerMethods();
+		Map<RequestMappingInfo, HandlerMethod> handlersMethod = requestMappingInfoHandlerMapping.getHandlerMethods();
 
 		handlersMethod.forEach((key, value) -> System.out
 				.println(key.getPatternsCondition().getPatterns() + " : " + key.getMethodsCondition().getMethods()));

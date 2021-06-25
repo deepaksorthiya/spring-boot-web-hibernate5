@@ -45,11 +45,7 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public Optional<User> findById(Long userId) {
-		Optional<User> user = userRepository.findById(userId);
-		user.orElseThrow(() -> {
-			throw new ResourceNotFoundException("Entity dooes not exists on server.");
-		});
-		return user;
+		return userRepository.findById(userId);
 	}
 
 	/**
@@ -207,7 +203,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	/**
-	 * @param id
+	 * @param userId
 	 * @return
 	 */
 	@Override
