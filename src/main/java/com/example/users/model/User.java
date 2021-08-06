@@ -13,7 +13,13 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import com.example.roles.model.Role;
+import lombok.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 @Entity
 public class User {
 
@@ -34,63 +40,4 @@ public class User {
 	@ManyToMany(cascade = CascadeType.ALL, targetEntity = Role.class)
 	@JoinTable(name = "USER_ROLE_MAPPING")
 	private Set<Role> roles;
-
-	public User() {
-		// jpa
-	}
-
-	public User(long userId, String email, String firstName, String lastName, Set<Role> roles) {
-		this.userId = userId;
-		this.email = email;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.roles = roles;
-	}
-
-	public long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
-
-	@Override
-	public String toString() {
-		return "User [userId=" + userId + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", roles=" + roles + "]";
-	}
-
 }
