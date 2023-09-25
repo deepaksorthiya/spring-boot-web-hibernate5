@@ -3,6 +3,7 @@ package com.example.users.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.users.model.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -10,8 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.example.global.exceptions.ResourceNotFoundException;
-import com.example.users.model.User;
 import com.example.users.repo.UserRepository;
 
 @Service
@@ -25,18 +24,18 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	@Override
-	public Page<User> findAll(Pageable pageable) {
-		Page<User> users = userRepository.findAll(pageable);
+	public Page<AppUser> findAll(Pageable pageable) {
+		Page<AppUser> users = userRepository.findAll(pageable);
 		return users;
 	}
 
 	/**
-	 * @param user
+	 * @param appUser
 	 * @return
 	 */
 	@Override
-	public User save(User user) {
-		return userRepository.save(user);
+	public AppUser save(AppUser appUser) {
+		return userRepository.save(appUser);
 	}
 
 	/**
@@ -44,7 +43,7 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	@Override
-	public Optional<User> findById(Long userId) {
+	public Optional<AppUser> findById(Long userId) {
 		return userRepository.findById(userId);
 	}
 
@@ -74,18 +73,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 	/**
-	 * @param user
+	 * @param appUser
 	 */
 	@Override
-	public void delete(User user) {
-		userRepository.delete(user);
+	public void delete(AppUser appUser) {
+		userRepository.delete(appUser);
 	}
 
 	/**
 	 * @param users
 	 */
 	@Override
-	public void deleteAll(Iterable<User> users) {
+	public void deleteAll(Iterable<AppUser> users) {
 		userRepository.deleteAll(users);
 	}
 
@@ -102,7 +101,7 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	@Override
-	public Optional<User> findOne(Example<User> example) {
+	public Optional<AppUser> findOne(Example<AppUser> example) {
 		return userRepository.findOne(example);
 	}
 
@@ -112,7 +111,7 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	@Override
-	public Page<User> findAll(Example<User> example, Pageable pageable) {
+	public Page<AppUser> findAll(Example<AppUser> example, Pageable pageable) {
 		return userRepository.findAll(example, pageable);
 	}
 
@@ -121,7 +120,7 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	@Override
-	public long count(Example<User> example) {
+	public long count(Example<AppUser> example) {
 		return userRepository.count(example);
 	}
 
@@ -130,7 +129,7 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	@Override
-	public boolean exists(Example<User> example) {
+	public boolean exists(Example<AppUser> example) {
 		return userRepository.exists(example);
 	}
 
@@ -138,7 +137,7 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	@Override
-	public List<User> findAll() {
+	public List<AppUser> findAll() {
 		return userRepository.findAll();
 	}
 
@@ -147,7 +146,7 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	@Override
-	public List<User> findAll(Sort sort) {
+	public List<AppUser> findAll(Sort sort) {
 		return userRepository.findAll(sort);
 	}
 
@@ -156,7 +155,7 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	@Override
-	public List<User> findAllById(Iterable<Long> userIds) {
+	public List<AppUser> findAllById(Iterable<Long> userIds) {
 		return userRepository.findAllById(userIds);
 	}
 
@@ -165,7 +164,7 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	@Override
-	public List<User> saveAll(Iterable<User> users) {
+	public List<AppUser> saveAll(Iterable<AppUser> users) {
 		return userRepository.saveAll(users);
 	}
 
@@ -178,19 +177,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	/**
-	 * @param user
+	 * @param appUser
 	 * @return
 	 */
 	@Override
-	public User saveAndFlush(User user) {
-		return userRepository.saveAndFlush(user);
+	public AppUser saveAndFlush(AppUser appUser) {
+		return userRepository.saveAndFlush(appUser);
 	}
 
 	/**
 	 * @param users
 	 */
 	@Override
-	public void deleteInBatch(Iterable<User> users) {
+	public void deleteInBatch(Iterable<AppUser> users) {
 		userRepository.deleteAll(users);
 	}
 
@@ -207,7 +206,7 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	@Override
-	public User getOne(Long userId) {
+	public AppUser getOne(Long userId) {
 		return userRepository.getOne(userId);
 	}
 
@@ -216,7 +215,7 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	@Override
-	public List<User> findAll(Example<User> example) {
+	public List<AppUser> findAll(Example<AppUser> example) {
 		return userRepository.findAll(example);
 	}
 
@@ -226,7 +225,7 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	@Override
-	public List<User> findAll(Example<User> example, Sort sort) {
+	public List<AppUser> findAll(Example<AppUser> example, Sort sort) {
 		return userRepository.findAll(example, sort);
 	}
 

@@ -3,10 +3,10 @@ package com.example.roles.model;
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.persistence.*;
+import com.example.users.model.AppUser;
+import jakarta.persistence.*;
 
 import com.example.permission.model.Permission;
-import com.example.users.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -31,9 +31,9 @@ public class Role implements Serializable {
 
     private String roleDesc;
 
-    @ManyToMany(mappedBy = "roles", targetEntity = User.class)
+    @ManyToMany(mappedBy = "roles", targetEntity = AppUser.class)
     @JsonIgnore
-    private Set<User> users;
+    private Set<AppUser> appUsers;
 
     @ManyToMany(cascade = CascadeType.ALL, targetEntity = Permission.class)
     @JoinTable(name = "ROLE_PERMISSION_MAPPING")

@@ -4,7 +4,7 @@ import com.example.permission.model.Permission;
 import com.example.permission.repo.PermissionRepository;
 import com.example.roles.model.Role;
 import com.example.roles.repo.RoleRepository;
-import com.example.users.model.User;
+import com.example.users.model.AppUser;
 import com.example.users.repo.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -13,8 +13,9 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -53,7 +54,11 @@ public class SpringCommandLineRunner implements CommandLineRunner {
         log.info("Role Repo : {} ", roleRepository);
         Map<RequestMappingInfo, HandlerMethod> handlersMethod = requestMappingInfoHandlerMapping.getHandlerMethods();
 
-        handlersMethod.forEach((key, value) -> log.info(key.getPatternsCondition().getPatterns() + " : " + key.getMethodsCondition().getMethods()));
+        handlersMethod.forEach((key, value) -> log.info(key.getPathPatternsCondition().getPatternValues() + " : " + key.getMethodsCondition().getMethods()));
+
+        for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlersMethod.entrySet()) {
+            System.out.println(entry.getKey());
+        }
 
         Permission permission = new Permission(1, "permission", "permission desc", null);
         Set<Permission> permissions = new HashSet<>();
@@ -65,15 +70,15 @@ public class SpringCommandLineRunner implements CommandLineRunner {
 
         // Role saveRole = roleRepository.save(role);
 
-        List<User> userList = new ArrayList<>();
+        List<AppUser> appUserList = new ArrayList<>();
 
         for (int i = 0; i < 26; i++) {
             char c = (char) (i + 97);
-            User user = new User(0, c + "@gmail.com", c + "", c + "", null);
-            userList.add(user);
+            AppUser appUser = new AppUser(0, c + "@gmail.com", c + "", c + "", null);
+            appUserList.add(appUser);
         }
-        List<User> saveUserList = userRepository.saveAll(userList);
-        for (User u : saveUserList) {
+        List<AppUser> saveAppUserList = userRepository.saveAll(appUserList);
+        for (AppUser u : saveAppUserList) {
             u.setRoles(roles);
             userRepository.save(u);
         }

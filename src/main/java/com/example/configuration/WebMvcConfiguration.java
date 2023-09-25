@@ -1,7 +1,7 @@
 package com.example.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+import com.fasterxml.jackson.datatype.hibernate5.jakarta.Hibernate5JakartaModule;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +23,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
 
 		MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
-		Hibernate5Module hibernate5Module = new Hibernate5Module();
+		Hibernate5JakartaModule hibernate5Module = new Hibernate5JakartaModule();
 		objectMapper.registerModule(hibernate5Module);
 		messageConverter.setObjectMapper(objectMapper);
 		return messageConverter;

@@ -3,12 +3,11 @@ package com.example.users.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.users.model.AppUser;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-
-import com.example.users.model.User;
 
 public interface UserService {
 
@@ -16,19 +15,19 @@ public interface UserService {
 	 * @param pageable
 	 * @return
 	 */
-	Page<User> findAll(Pageable pageable);
+	Page<AppUser> findAll(Pageable pageable);
 
 	/**
-	 * @param user
+	 * @param appUser
 	 * @return
 	 */
-	User save(User user);
+	AppUser save(AppUser appUser);
 
 	/**
 	 * @param userId
 	 * @return
 	 */
-	Optional<User> findById(Long userId);
+	Optional<AppUser> findById(Long userId);
 
 	/**
 	 * @param userId
@@ -47,14 +46,14 @@ public interface UserService {
 	void deleteById(Long userId);
 
 	/**
-	 * @param user
+	 * @param appUser
 	 */
-	void delete(User user);
+	void delete(AppUser appUser);
 
 	/**
 	 * @param users
 	 */
-	void deleteAll(Iterable<User> users);
+	void deleteAll(Iterable<AppUser> users);
 
 	/**
 	 * 
@@ -65,49 +64,49 @@ public interface UserService {
 	 * @param example
 	 * @return
 	 */
-	Optional<User> findOne(Example<User> example);
+	Optional<AppUser> findOne(Example<AppUser> example);
 
 	/**
 	 * @param example
 	 * @param pageable
 	 * @return
 	 */
-	Page<User> findAll(Example<User> example, Pageable pageable);
+	Page<AppUser> findAll(Example<AppUser> example, Pageable pageable);
 
 	/**
 	 * @param example
 	 * @return
 	 */
-	long count(Example<User> example);
+	long count(Example<AppUser> example);
 
 	/**
 	 * @param example
 	 * @return
 	 */
-	boolean exists(Example<User> example);
+	boolean exists(Example<AppUser> example);
 
 	/**
 	 * @return
 	 */
-	List<User> findAll();
+	List<AppUser> findAll();
 
 	/**
 	 * @param sort
 	 * @return
 	 */
-	List<User> findAll(Sort sort);
+	List<AppUser> findAll(Sort sort);
 
 	/**
 	 * @param userIds
 	 * @return
 	 */
-	List<User> findAllById(Iterable<Long> userIds);
+	List<AppUser> findAllById(Iterable<Long> userIds);
 
 	/**
 	 * @param users
 	 * @return
 	 */
-	List<User> saveAll(Iterable<User> users);
+	List<AppUser> saveAll(Iterable<AppUser> users);
 
 	/**
 	 * 
@@ -115,15 +114,15 @@ public interface UserService {
 	void flush();
 
 	/**
-	 * @param user
+	 * @param appUser
 	 * @return
 	 */
-	User saveAndFlush(User user);
+	AppUser saveAndFlush(AppUser appUser);
 
 	/**
 	 * @param users
 	 */
-	void deleteInBatch(Iterable<User> users);
+	void deleteInBatch(Iterable<AppUser> users);
 
 	/**
 	 * 
@@ -131,22 +130,22 @@ public interface UserService {
 	void deleteAllInBatch();
 
 	/**
-	 * @param id
+	 * @param userId
 	 * @return
 	 */
-	User getOne(Long userId);
+	AppUser getOne(Long userId);
 
 	/**
 	 * @param example
 	 * @return
 	 */
-	List<User> findAll(Example<User> example);
+	List<AppUser> findAll(Example<AppUser> example);
 
 	/**
 	 * @param example
 	 * @param sort
 	 * @return
 	 */
-	List<User> findAll(Example<User> example, Sort sort);
+	List<AppUser> findAll(Example<AppUser> example, Sort sort);
 
 }
