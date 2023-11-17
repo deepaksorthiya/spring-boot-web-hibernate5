@@ -3,6 +3,8 @@ package com.example.configuration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate5.jakarta.Hibernate5JakartaModule;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -15,6 +17,7 @@ import java.util.List;
 @Configuration
 @EnableWebMvc
 @AllArgsConstructor
+@AutoConfiguration(after = {ValidationAutoConfiguration.class})
 public class WebMvcConfiguration implements WebMvcConfigurer {
 
 	ObjectMapper objectMapper;
@@ -33,5 +36,4 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 		converters.add(mappingJackson2HttpMessageConverter());
 	}
-
 }

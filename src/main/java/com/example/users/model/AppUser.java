@@ -27,7 +27,7 @@ public class AppUser {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long userId;
 
-	@Email(message = "email should be in proper form")
+	@Email(message = "{email.not.valid}")
 	@NotBlank(message = "email should not be blank")
 	private String email;
 
