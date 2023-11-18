@@ -6,8 +6,11 @@ import com.example.roles.model.Role;
 import com.example.roles.repo.RoleRepository;
 import com.example.users.model.AppUser;
 import com.example.users.repo.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Validator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
@@ -16,11 +19,7 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMappi
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Component
 @Slf4j
@@ -37,17 +36,24 @@ public class SpringCommandLineRunner implements CommandLineRunner {
     @PersistenceContext
     private EntityManager entityManager;
 
+    private final ObjectMapper objectMapper;
+
+    private final ApplicationContext applicationContext;
+
+
     public SpringCommandLineRunner(UserRepository userRepository, RoleRepository roleRepository,
                                    PermissionRepository permissionRepository,
-                                   RequestMappingInfoHandlerMapping requestMappingInfoHandlerMapping) {
+                                   RequestMappingInfoHandlerMapping requestMappingInfoHandlerMapping, ObjectMapper objectMapper, ApplicationContext applicationContext) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.permissionRepository = permissionRepository;
         this.requestMappingInfoHandlerMapping = requestMappingInfoHandlerMapping;
+        this.objectMapper = objectMapper;
+        this.applicationContext = applicationContext;
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
 
         log.info("Entity Manager : {} ", entityManager);
         log.info("Permission Repo : {} ", permissionRepository);
@@ -59,6 +65,15 @@ public class SpringCommandLineRunner implements CommandLineRunner {
         for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlersMethod.entrySet()) {
             System.out.println(entry.getKey());
         }
+
+        Set<Object> moduleIds = objectMapper.getRegisteredModuleIds();
+        log.info("Modules : {} ", moduleIds);
+
+        String[] names1 = applicationContext.getBeanNamesForType(Validator.class);
+        String[] names2 = applicationContext.getBeanNamesForType(org.springframework.validation.Validator.class);
+
+        log.info("Jakarta Validator Beans : {} ", Arrays.toString(names1));
+        log.info("Spring Validator Beans : {} ", Arrays.toString(names2));
 
         Permission permission = new Permission(1, "permission", "permission desc", null);
         Set<Permission> permissions = new HashSet<>();

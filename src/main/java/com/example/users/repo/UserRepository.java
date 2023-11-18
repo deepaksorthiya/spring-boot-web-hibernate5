@@ -23,4 +23,7 @@ public interface UserRepository extends JpaRepository<AppUser, Long> {
 
     @EntityGraph(attributePaths = {"roles", "roles.permissions"})
     Page<AppUser> findAll(Pageable pageable);
+
+    @EntityGraph(attributePaths = {"roles"})
+    Page<AppUser> findAllBy(Pageable pageable);
 }
