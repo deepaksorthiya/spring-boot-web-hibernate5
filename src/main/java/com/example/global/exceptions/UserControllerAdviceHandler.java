@@ -52,7 +52,7 @@ public class UserControllerAdviceHandler extends ResponseEntityExceptionHandler 
 
         }
 
-        ErrorDto errorDto = new ErrorDto("Invalid arguments", LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), maps);
+        ErrorDto errorDto = new ErrorDto("Invalid details. Please provide correct information.", LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), maps);
         return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
     }
 

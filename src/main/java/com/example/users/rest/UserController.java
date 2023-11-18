@@ -1,9 +1,9 @@
 package com.example.users.rest;
 
 import com.example.constants.KeyConstants;
+import com.example.global.exceptions.ResourceNotFoundException;
 import com.example.users.model.AppUser;
 import com.example.users.repo.UserRepository;
-import com.example.users.service.UserService;
 import jakarta.persistence.EntityManager;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -20,26 +20,23 @@ import java.util.Map;
 @RequestMapping(KeyConstants.API_PREFIX + "/users")
 public class UserController {
 
-    private final UserService userService;
-
     private final UserRepository userRepository;
 
     private final EntityManager entityManager;
 
-    public UserController(UserService userService, UserRepository userRepository, EntityManager entityManager) {
-        this.userService = userService;
+    public UserController(UserRepository userRepository, EntityManager entityManager) {
         this.userRepository = userRepository;
         this.entityManager = entityManager;
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppUser> save(@RequestBody @Valid AppUser appUser) {
-        return new ResponseEntity<>(userService.save(appUser), HttpStatus.CREATED);
+        return new ResponseEntity<>(userRepository.save(appUser), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppUser> getUser(@PathVariable long userId) {
-        return new ResponseEntity<>(userService.findById(userId).get(), HttpStatus.OK);
+        return new ResponseEntity<>(userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found.")), HttpStatus.OK);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
