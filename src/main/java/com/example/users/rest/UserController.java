@@ -36,7 +36,7 @@ public class UserController {
 
     @GetMapping(value = "{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppUser> getUser(@PathVariable long userId) {
-        return new ResponseEntity<>(userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found.")), HttpStatus.OK);
+        return new ResponseEntity<>(userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException(userId)), HttpStatus.OK);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)

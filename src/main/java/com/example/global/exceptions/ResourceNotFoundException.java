@@ -1,14 +1,13 @@
 package com.example.global.exceptions;
 
+import lombok.Getter;
+
+@Getter
 public class ResourceNotFoundException extends RuntimeException {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    private final long userId;
 
-	public ResourceNotFoundException(String string) {
-		super(string);
-	}
-
+    public ResourceNotFoundException(long userId) {
+        this.userId = userId;
+    }
 }
